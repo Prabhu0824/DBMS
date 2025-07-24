@@ -1,0 +1,150 @@
+Microsoft Windows [Version 10.0.19045.6093]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\MySQL\MySQL Server 9.3\bin>mysql -h localhost -u root -p
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 9.3.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database inventory;
+ERROR 1007 (HY000): Can't create database 'inventory'; database exists
+mysql> use invnetory;
+ERROR 1049 (42000): Unknown database 'invnetory'
+mysql> use inventory;
+Database changed
+mysql> desc product;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| pid   | int         | NO   | PRI | NULL    |       |
+| pname | varchar(20) | YES  |     | NULL    |       |
+| price | float       | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.263 sec)
+
+mysql> desc sale;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| sid   | int  | YES  |     | NULL    |       |
+| pid   | int  | YES  | MUL | NULL    |       |
+| qty   | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+3 rows in set (0.015 sec)
+
+mysql> desc supplier;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| sppuid  | int         | NO   | PRI | NULL    |       |
+| sname   | varchar(20) | YES  |     | NULL    |       |
+| address | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.014 sec)
+
+mysql> create view v1 as select * pname,price from product;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'pname,price from product' at line 1
+mysql>  create view v1 as select*pname,price from product;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'pname,price from product' at line 1
+mysql>  create view v1 as select * from product;
+Query OK, 0 rows affected (0.180 sec)
+
+mysql> create view v2 as select pid,pname,qty from product, sale;
+ERROR 1052 (23000): Column 'pid' in field list is ambiguous
+mysql> insert into v1 values(123,'shoes',500);
+Query OK, 1 row affected (0.242 sec)
+
+mysql> select * from v1;
++-----+-------+-------+
+| pid | pname | price |
++-----+-------+-------+
+| 123 | shoes |   500 |
++-----+-------+-------+
+1 row in set (0.005 sec)
+
+mysql> insert into v1 values(125,'shirt',900);
+Query OK, 1 row affected (0.093 sec)
+
+mysql> select * from v1;
++-----+-------+-------+
+| pid | pname | price |
++-----+-------+-------+
+| 123 | shoes |   500 |
+| 125 | shirt |   900 |
++-----+-------+-------+
+2 rows in set (0.004 sec)
+
+mysql> delete from v1 where price = 500;
+Query OK, 1 row affected (0.211 sec)
+
+mysql> select * from v1;
++-----+-------+-------+
+| pid | pname | price |
++-----+-------+-------+
+| 125 | shirt |   900 |
++-----+-------+-------+
+1 row in set (0.004 sec)
+
+
+
+mysql> select * from v1;
++-----+-------+-------+
+| pid | pname | price |
++-----+-------+-------+
+| 125 | shirt |   900 |
++-----+-------+-------+
+1 row in set (0.005 sec)
+
+mysql> update v1 set price = 700 where pname = 'shirt';
+Query OK, 1 row affected (0.088 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from v1;
++-----+-------+-------+
+| pid | pname | price |
++-----+-------+-------+
+| 125 | shirt |   700 |
++-----+-------+-------+
+1 row in set (0.004 sec)
+
+mysql> drop view v1;
+Query OK, 0 rows affected (0.099 sec)
+
+mysql> select * from v1;
+ERROR 1146 (42S02): Table 'inventory.v1' doesn't exist
+
+mysql>
+
+
+mysql> select * from v1;
+ERROR 1146 (42S02): Table 'inventory.v1' doesn't exist
+mysql> CREATE INDEX i_price ON (price);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(price)' at line 1
+mysql>  CREATE INDEX i_price ON(price);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(price)' at line 1
+mysql> CREATE INDEX i_price ON product(price);
+Query OK, 0 rows affected (0.494 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> CREATE INDEX x_pname ON product(pname);
+Query OK, 0 rows affected (0.556 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SHOW INDEX FROM product;
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table   | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| product |          0 | PRIMARY  |            1 | pid         | A         |           1 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| product |          1 | i_price  |            1 | price       | A         |           1 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
+| product |          1 | x_pname  |            1 | pname       | A         |           1 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+3 rows in set (0.127 sec)
