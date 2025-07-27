@@ -1,0 +1,76 @@
+DML OPERATIONS ON INVENTORY:-
+
+Microsoft Windows [Version 10.0.26100.4652]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -h localhost -u root -p
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.43 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use inventory;
+Database changed
+mysql> desc product;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| pid   | int         | NO   | PRI | NULL    |       |
+| pname | varchar(20) | YES  |     | NULL    |       |
+| price | float       | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> desc sale;
++--------+-------+------+-----+---------+-------+
+| Field  | Type  | Null | Key | Default | Extra |
++--------+-------+------+-----+---------+-------+
+| saleid | int   | NO   | PRI | NULL    |       |
+| pid    | int   | YES  | MUL | NULL    |       |
+| qty    | int   | YES  |     | NULL    |       |
+| price  | float | YES  |     | NULL    |       |
++--------+-------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc supplier;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| sid    | int         | NO   | PRI | NULL    |       |
+| name   | varchar(20) | YES  |     | NULL    |       |
+| addres | varchar(20) | YES  |     | NULL    |       |
+| email  | varchar(40) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into supplier(sid,name)values(2203,'hedric');
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into sale(saleid,pid)values(100,458);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`inventory`.`sale`, CONSTRAINT `sale_ibfk_1` FOREIGN KEY (`pid`) REFERENCES `product` (`pid`))
+mysql> desc product;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| pid   | int         | NO   | PRI | NULL    |       |
+| pname | varchar(20) | YES  |     | NULL    |       |
+| price | float       | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into product(pid)values(104);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into sale(saleid,pid)values(100,104);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> delete from product where pid=104;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`inventory`.`sale`, CONSTRAINT `sale_ibfk_1` FOREIGN KEY (`pid`) REFERENCES `product` (`pid`))
