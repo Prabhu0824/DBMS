@@ -1,0 +1,118 @@
+NUMERIC OPERATIONS:-
+
+
+Microsoft Windows [Version 10.0.19045.6093]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\MySQL\MySQL Server 9.3\bin>mysql -h localhost -u root -p
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 9.3.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database company;
+Query OK, 1 row affected (0.119 sec)
+
+mysql> use company;
+Database changed
+mysql> create TABLE employees(
+    -> employee_id int primary key AUTO_INCREMENT,
+    -> first_name varchar(50) NOT NULL,
+    -> last_name varchar(40) NOT NULL,
+    -> department varchar(60),
+    -> salary DECIMAL(10,2));
+Query OK, 0 rows affected (0.219 sec)
+
+mysql> INSERT INTO employees (first_name, last_name, department, salary) VALUES('Rahul', 'Sharma', 'Sales', 50000.00),('Priya', 'Singh', 'Marketing', 60000.00),('Amit', 'Kumar', 'Sales', 55000.00),('Neha', 'Verma', 'IT', 58000.00),('Sahil', 'Mehta', 'IT', 62000.00),('Kiran', 'Patel', 'Sales', 53000.00);
+Query OK, 6 rows affected (0.112 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> SELECT COUNT(*) AS total_employees FROM employees;
++-----------------+
+| total_employees |
++-----------------+
+|               6 |
++-----------------+
+1 row in set (0.081 sec)
+
+mysql> SELECT SUM(salary) AS total_salary FROM employees;
++--------------+
+| total_salary |
++--------------+
+|    338000.00 |
++--------------+
+1 row in set (0.004 sec)
+
+mysql> SELECT AVG(salary) AS average_salary FROM employees;
++----------------+
+| average_salary |
++----------------+
+|   56333.333333 |
++----------------+
+1 row in set (0.059 sec)
+
+mysql> SELECT MIN(salary) AS minimum_salary, MAX(salary) AS maximum_salary FROM employees;
++----------------+----------------+
+| minimum_salary | maximum_salary |
++----------------+----------------+
+|       50000.00 |       62000.00 |
++----------------+----------------+
+1 row in set (0.059 sec)
+
+mysql> SELECT ABS(-21);
++----------+
+| ABS(-21) |
++----------+
+|       21 |
++----------+
+1 row in set (0.003 sec)
+
+mysql> SELECT ROUND(123.4867, 2);
++--------------------+
+| ROUND(123.4867, 2) |
++--------------------+
+|             123.49 |
++--------------------+
+1 row in set (0.058 sec)
+
+mysql> SELECT CEIL(45.67);
++-------------+
+| CEIL(45.67) |
++-------------+
+|          46 |
++-------------+
+1 row in set (0.074 sec)
+
+mysql> SELECT FLOOR(45.67);
++--------------+
+| FLOOR(45.67) |
++--------------+
+|           45 |
++--------------+
+1 row in set (0.057 sec)
+
+mysql> SELECT SQRT(18);
++-------------------+
+| SQRT(18)          |
++-------------------+
+| 4.242640687119285 |
++-------------------+
+1 row in set (0.003 sec)
+
+mysql> SELECT CURDATE();
++------------+
+| CURDATE()  |
++------------+
+| 2025-07-29 |
++------------+
+1 row in set (0.059 sec)
+
+mysql>
