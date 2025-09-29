@@ -104,7 +104,7 @@ Output:
 Enter the value of pid
 101
 Enter the value of pname
-basic's of oop
+Prabhu
 Enter the value of price
 750
 Table is Created…!
@@ -138,5 +138,6 @@ mysql> select * from product;
 |  103 | pranav   |   800 |
 +------+----------+-------+
 3 rows in set (0.012 sec)
+
 
 
