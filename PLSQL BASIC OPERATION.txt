@@ -1,0 +1,49 @@
+PL/SQL BASIC OPERATION
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Fri Aug 10 20:04:34 2025
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+Enter user-name: system
+Enter password:
+Last Successful login time: Fri Aug 10 2025 18:00:50 +05:30
+
+Connected to:
+Oracle Database 21c Express Edition Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+SQL> @ C:\Users\ACER\OneDrive\Desktop\TE-A1\additionfile.sql
+Enter value for a: 67
+old   6: a:=&a;
+new   6: a:=67;
+Enter value for b: 23
+old   7: b:=&b;
+new   7: b:=23;
+addition is =90
+PL/SQL procedure successfully completed.
+
+SQL> @ C:\Users\ACER\OneDrive\Desktop\TE-A1\PRABHU.sql
+Greater number is: 40
+
+PL/SQL procedure successfully completed.
+
+SQL> @ C:\Users\ACER\OneDrive\Desktop\TE-A1\PRABHU.sql
+Greater number is: 25
+
+PL/SQL procedure successfully completed.
+
+SQL> @ C:\Users\ACER\OneDrive\Desktop\TE-A1\PRABHU.sql
+Greater number is: 84
+
+PL/SQL procedure successfully completed.
+
+SQL> create table product (pid int, name varchar(20), email varchar(30));
+
+Table created.
+SQL> desc product;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PID                                                NUMBER(38)
+ NAME                                               VARCHAR2(20)
+ EMAIL                                              VARCHAR2(30)
+
