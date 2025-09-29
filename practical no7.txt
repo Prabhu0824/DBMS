@@ -1,0 +1,91 @@
+practical no:7
+
+
+Create Trigger:
+create or replace trigger xyzdemo
+before update or delete on library
+for each row
+begin
+insert into bk_lib values(:old.srno,:old.book_name,:old.publication,:old.price,:old.purchase_date);
+end;
+/
+Output:
+SQL*Plus: Release 21.0.0.0.0 - Production on Tue Sep 09 01:14:29 2025
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+Enter user-name: system
+Enter password:
+Last Successful login time: Mon Sep 08 2025 05:55:35 -07:00
+
+Connected to:
+Oracle Database 21c Express Edition Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+
+SQL> create table library(srno int,book_name varchar(50),publication varchar(60),price float,purchase_date date);
+
+Table created.
+
+SQL> insert into library values(1,'python programing','jesan',5500,'11-sep-2025');
+
+1 row created.
+
+SQL> insert into library values(2,'basics of java','mickey',3000,'16-sep-2025');
+
+1 row created.
+
+SQL> insert into library values(3,'oop concept','max',9000,'27-sep-2025');
+
+1 row created.
+
+SQL> create table bk_lib(srno int,book_name varchar(30),publication varchar(20),price float,purchase_date date);
+
+Table created.
+SQL> select * from library;
+
+      SRNO BOOK_NAME            PUBLICATION               PRICE PURCHASE_
+---------- -------------------- -------------------- ---------- ---------
+         1 python programing     jesan                     5500 11-SEP-25
+         2 basics of java        mickey                    3000 16-SEP-25
+         3 oop concept           max                       9000 27-SEP-25
+
+SQL> desc bk_lib;
+ Name                                               Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SRNO                                                         NUMBER(38)
+ BOOK_NAME                                          VARCHAR2(30)
+ PUBLICATION                                        VARCHAR2(20)
+ PRICE                                                        FLOAT(126)
+ PURCHASE_DATE                                   DATE
+
+SQL> @C:\Users\System05\Desktop\TE_A1_DBMS\prabhu7.sql
+
+Trigger created.
+
+Delete Trigger:
+CREATE OR REPLACE TRIGGER xyzdemo
+BEFORE DELETE ON library
+FOR EACH ROW
+BEGIN
+  INSERT INTO bk_lib (srno, book_name, publication, price, purchase_date)
+  VALUES (:old.srno, :old.book_name, :old.publication, :old.price, :old.purchase_date);
+END;
+/
+
+Output:
+SQL> delete from library where srno=2;
+
+1 row deleted
+SQL> select * from library;
+
+      SRNO BOOK_NAME            PUBLICATION               PRICE PURCHASE_
+---------- -------------------- -------------------- ---------- ---------
+         1 python programing     jesen                     5500 11-SEP-25
+         3 oop concept           max                       9000 27-SEP-25
+
+SQL> select * from bk_lib;
+
+SRNO	BOOK_NAME	PUBLICATION	PRICE	PURCHASE_DATE
+2	basics of java  mickey	       3000	16-SEP-25
+
