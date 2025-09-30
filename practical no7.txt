@@ -10,7 +10,7 @@ insert into bk_lib values(:old.srno,:old.book_name,:old.publication,:old.price,:
 end;
 /
 Output:
-SQL*Plus: Release 21.0.0.0.0 - Production on Tue Sep 11 20:14:29 2025
+SQL*Plus: Release 21.0.0.0.0 - Production on Tue Sep 09 20:14:29 2025
 Version 21.3.0.0.0
 
 Copyright (c) 1982, 2021, Oracle.  All rights reserved.
@@ -88,5 +88,6 @@ SQL> select * from bk_lib;
 
 SRNO	BOOK_NAME	PUBLICATION	PRICE	PURCHASE_DATE
 2	basics of java  mickey	       3000	16-SEP-25
+
 
 
