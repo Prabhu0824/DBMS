@@ -1,0 +1,48 @@
+
+STATEMENT TRIGGER CODE:
+create or replace trigger statement
+before update or delete or insert on library1
+for each row 
+begin
+if rtrim(upper(to_char(sysdate,'day','nls_date_language=english')))='Thursday' then 
+raise_application_error(-20001,'does not allowed opration of update d, delete , insert on Thursday');
+end if;
+end;
+/
+OUTPUT:
+
+SQL> @ C:\Users\Prabhu\OneDrive\Documents\Desktop\mysql\tej.sql
+before update or delete or insert on lib
+                                     *
+ERROR at line 2:
+ORA-00942: table or view does not exist
+
+
+SQL> @ C:\Users\Prabhu\OneDrive\Documents\Desktop\mysql\tej.sql
+
+Trigger created.
+
+SQL> insert into library1 values(101,'morden operating system','andrew','pearson',600,'20-aug-2025');
+insert into library1 values(101,'morden operating system','andrew','pearson',600,'20-aug-2025')
+                                *
+ERROR at line 1:
+ORA-12899: value too large for column "SYSTEM"."LIBRARY1"."BOOKNAME" (actual:
+23, maximum: 20)
+
+
+SQL> insert into library1 values(101,'morden os','andrew','pearson',600,'20-aug-2025');
+insert into library1 values(101,'morden os','andrew','pearson',600,'20-aug-2025')
+            *
+ERROR at line 1:
+ORA-20001: does not allowed opration of update d, delete , insert on Thursday
+ORA-06512: at "SYSTEM.STATEMENT", line 3
+ORA-04088: error during execution of trigger 'SYSTEM.STATEMENT'
+
+
+SQL> delete from library1;
+
+does not allowed opration of update d, delete , insert on Thursday
+ORA-06512: at "SYSTEM.STATEMENT", line 3
+ORA-04088: error during execution of trigger 'SYSTEM.STATEMENT'
+
+SQL>
